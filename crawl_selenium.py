@@ -20,5 +20,4 @@ def crawl(serial_number):
 
 
 if __name__ == "__main__":
-    price = crawl('467536')
-    print(price)
+    print(crawl('467536'))

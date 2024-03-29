@@ -86,8 +86,8 @@ def find_product():
                     messages=[reply]))
                 break
 
-            # result = product_crawl(message_input)
-            result = crawl(message_input)
+            result = product_crawl(message_input)
+            # result = crawl(message_input)
             if result == -1:
                 reply1 = "商品不存在日本Uniqlo哦! (期間限定價格商品可能找不到)"
                 reply2 = "請重新輸入或按 1 看範例~"
