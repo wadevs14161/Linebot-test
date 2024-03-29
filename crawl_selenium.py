@@ -15,13 +15,8 @@ def crawl(serial_number):
 
     price_element = driver.find_element(By.CLASS_NAME, "fr-ec-price-text")
 
-
-    # search.clear()   # 清除框框（以免有預設值）
-    # search.send_keys(467536)  # 輸入要搜尋的關鍵字（這邊放商品代號）
-    # search_icon.click()  # 點擊送出
-
     price = price_element.text
-    return price
+    return [price, price, price, price]
 
 
 if __name__ == "__main__":

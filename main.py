@@ -22,6 +22,7 @@ from linebot.v3.messaging import (
     ImageMessage
 )
 from crawl import product_crawl
+from crawl_selenium import crawl
 
 app = Flask(__name__)
 
@@ -85,7 +86,8 @@ def find_product():
                     messages=[reply]))
                 break
 
-            result = product_crawl(message_input)
+            # result = product_crawl(message_input)
+            result = crawl(message_input)
             if result == -1:
                 reply1 = "商品不存在日本Uniqlo哦! (期間限定價格商品可能找不到)"
                 reply2 = "請重新輸入或按 1 看範例~"
@@ -96,7 +98,7 @@ def find_product():
                               TextMessage(text=reply2)]))
             else:
                 reply1 = "商品連結\n %s" % result[1]
-                reply2 = "商品價格: %d日圓" % result[2]
+                reply2 = "商品價格: %s日圓" % result[2]
                 reply3 = "折合台幣: %s元" % result[3]
                 reply4 = "臺灣官網售價: %s元" % result[4]
                 
