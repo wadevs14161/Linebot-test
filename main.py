@@ -93,11 +93,11 @@ def find_product():
                     if item['stock'] != 'STOCK_OUT' and item['color'] in available_dict:
                         available_dict[item['color']].append(item['size'])
 
-                reply = "商品庫存"
+                reply5 = "商品庫存"
 
                 for color in available_dict:
-                    reply += "\n{}: ".format(color)
-                    reply += "{}".format(', '.join(available_dict[color]))
+                    reply5 += "\n{}: ".format(color)
+                    reply5 += "{}".format(', '.join(available_dict[color]))
                 
                 line_bot_api.reply_message_with_http_info(
                     ReplyMessageRequest(
