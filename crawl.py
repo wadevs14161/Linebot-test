@@ -45,29 +45,29 @@ def product_crawl(serial_number):
             # Add color
             color_code = int(item['color']['code'][-2:])
             if color_code <= 1:
-                color = 'White'
+                color = 'White 白'
             elif color_code < 9:
-                color = 'Gray'
+                color = 'Gray 灰'
             elif color_code == 9:
-                color = 'Black'
+                color = 'Black 黑'
             elif color_code <= 19:
-                color = 'Red'
+                color = 'Red 紅'
             elif color_code <= 29:
-                color = 'Orange'
+                color = 'Orange 橘'
             elif color_code <= 39:
-                color = 'Brown'
+                color = 'Brown 棕'
             elif color_code <= 49:
-                color = 'Yellow'
+                color = 'Yellow 黃'
             elif color_code <= 59:
-                color = 'Green'
+                color = 'Green 綠'
             elif color_code < 69:
-                color = 'Blue'
+                color = 'Blue 藍'
             elif color_code == 69:
-                color = 'Navy'
+                color = 'Navy 海軍藍'
             elif color_code <= 79:
-                color = 'Purple'
+                color = 'Purple 紫'
             else:
-                color = 'Others'
+                color = 'Others 其他'
             product_dict['color'] = color
             #product_list.append(product_dict)
             

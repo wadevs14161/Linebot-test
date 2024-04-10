@@ -9,8 +9,11 @@ for item in product_list:
     if item['stock'] != 'STOCK_OUT' and item['color'] in available_dict:
         available_dict[item['color']].append(item['size'])
 
+reply = "商品庫存"
 
-reply = "商品庫存\n{}".format(available_dict)
+for color in available_dict:
+    reply += "\n{}: ".format(color)
+    reply += "{}".format(', '.join(available_dict[color]))
 
-print(available_dict)
+
 print(reply)
