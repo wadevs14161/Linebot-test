@@ -22,7 +22,7 @@ from linebot.v3.messaging import (
     ImageMessage
 )
 from crawl import product_crawl
-from crawl_selenium import crawl
+
 
 app = Flask(__name__)
 
@@ -85,6 +85,7 @@ def find_product():
                 reply2 = "商品價格: %s日圓" % result[2]
                 reply3 = "折合台幣: %s元" % result[3]
                 reply4 = "臺灣官網售價: %s元" % result[4]
+                reply5 = "庫存"
                 
                 line_bot_api.reply_message_with_http_info(
                     ReplyMessageRequest(
@@ -92,7 +93,8 @@ def find_product():
                     messages=[TextMessage(text=reply1),
                               TextMessage(text=reply2),
                               TextMessage(text=reply3),
-                              TextMessage(text=reply4)]))
+                              TextMessage(text=reply4),
+                              TextMessage(text=reply5)]))
                 
     return 'OK'
 
