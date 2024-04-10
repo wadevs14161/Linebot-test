@@ -47,25 +47,25 @@ def product_crawl(serial_number):
             if color_code <= 1:
                 color = 'White'
             elif color_code < 9:
-                color = 'Grays'
+                color = 'Gray'
             elif color_code == 9:
                 color = 'Black'
             elif color_code <= 19:
-                color = 'Reds'
+                color = 'Red'
             elif color_code <= 29:
-                color = 'Oranges'
+                color = 'Orange'
             elif color_code <= 39:
-                color = 'Browns'
+                color = 'Brown'
             elif color_code <= 49:
-                color = 'Yellows'
+                color = 'Yellow'
             elif color_code <= 59:
-                color = 'Greens'
+                color = 'Green'
             elif color_code < 69:
-                color = 'Blues'
+                color = 'Blue'
             elif color_code == 69:
                 color = 'Navy'
             elif color_code <= 79:
-                color = 'Purples'
+                color = 'Purple'
             else:
                 color = 'Others'
             product_dict['color'] = color
@@ -151,8 +151,8 @@ def product_crawl(serial_number):
         return result
 
             
-# test, product list = [464787, 467536, 467543, 459591, 460926, 463503]
+# test, product list = [464787, 467536, 467543, 459591, 450314]
 if __name__ == '__main__':
-    serial_number = '459591'
+    serial_number = '450314'
     print(product_crawl(serial_number))
     
