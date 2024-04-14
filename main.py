@@ -89,16 +89,19 @@ def find_product():
                     except:
                         reply1 += "\n臺灣官網售價: {}元".format(result[4][1])
                 available_dict = {}
-                for item in result[5]:
-                    if item['stock'] != 'STOCK_OUT' and item['color'] not in available_dict:
-                        available_dict[item['color']] = []
-                    if item['stock'] != 'STOCK_OUT' and item['color'] in available_dict:
-                        available_dict[item['color']].append(item['size'])
+                if len(result[5]) != 0:
+                    for item in result[5]:
+                        if item['stock'] != 'STOCK_OUT' and item['color'] not in available_dict:
+                            available_dict[item['color']] = []
+                        if item['stock'] != 'STOCK_OUT' and item['color'] in available_dict:
+                            available_dict[item['color']].append(item['size'])
 
-                reply2 = "日本官網庫存:"
-                for color in available_dict:
-                    reply2 += "\n{}: ".format(color)
-                    reply2 += "{}".format(', '.join(available_dict[color]))
+                    reply2 = "日本官網庫存:"
+                    for color in available_dict:
+                        reply2 += "\n{}: ".format(color)
+                        reply2 += "{}".format(', '.join(available_dict[color]))
+                else:
+                    reply2 = ""
 
                 line_bot_api.reply_message_with_http_info(
                     ReplyMessageRequest(

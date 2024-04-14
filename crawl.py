@@ -7,7 +7,48 @@ def product_crawl(serial_number):
     # first check if product exist in UniqloJP
     product_page = requests.get(product_url)
     if product_page.status_code == 404:
-        return -1
+        try:
+            product_info_api_url = "https://www.uniqlo.com/jp/api/commerce/v5/ja/products?q={}&queryRelaxationFlag=true&offset=0&limit=36&httpFailure=true".format(serial_number)
+            product_info_page = requests.get(product_info_api_url)
+            json_input = product_info_page.json()
+            if json_input['status'] == "ok":
+                product_list = []
+                serial_alt = json_input['result']['relaxedQueries'][0]
+                serial_number = json_input['result']['items'][0]['productId']
+                serial_number = serial_number[1:7]
+                product_url = product_base + serial_number
+                price_jp = json_input['result']['items'][0]['prices']['base']['value']
+
+                # currency exchange
+                currency_url = "https://www.google.com/finance/quote/JPY-TWD"
+                currency_page = requests.get(currency_url)
+                soup = BeautifulSoup(currency_page.text, "lxml")
+                exchange_rate = float(soup.find('div', class_='YMlKec fxKbKc').get_text())
+                #price_jp = int(product_list[0]['price'])
+                jp_price_in_twd = round(price_jp * exchange_rate)
+
+                uq_url = "https://uq.goodjack.tw/search?query=" + serial_alt
+                url = requests.get(uq_url).url
+                product_code_tw = url[-14:]
+
+                product_info_tw_url = "https://d.uniqlo.com/tw/p/product/i/product/spu/pc/query/" + product_code_tw + "/zh_TW"
+                headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+                product_info_tw = requests.get(product_info_tw_url, headers=headers)
+
+                json_input_tw = product_info_tw.json()
+                price_tw = []
+                if json_input_tw['success']:
+                    price_original = json_input_tw['resp'][0]['summary']['originPrice']
+                    price_min = json_input_tw['resp'][0]['summary']['minPrice']
+                    price_max = json_input_tw['resp'][0]['summary']['maxPrice']
+                    price_tw.append(int(price_original))
+                    price_tw.append(int(price_min))
+                    price_tw.append(int(price_max))
+
+                result = [serial_number, product_url, price_jp, jp_price_in_twd, price_tw, product_list]
+                return result
+        except:
+            return -1
     # search price_jp in product page (new method, 10-Apr.-2024)
     elif product_page:
         product_info_api_url = "https://www.uniqlo.com/jp/api/commerce/v5/ja/products/E{}-000/price-groups/00/l2s?withPrices=true&withStocks=true&includePreviousPrice=false&httpFailure=true".format(serial_number)
@@ -131,33 +172,7 @@ def product_crawl(serial_number):
             price_tw.append(int(price_original))
             price_tw.append(int(price_min))
             price_tw.append(int(price_max))
-
-        # find price in UQ 搜尋
-        # product_url_tw = "https://www.google.com/search?q=uniqlo+%E6%90%9C%E5%B0%8B+"
-        # product_url_tw += serial_number
-        # product_page_tw = requests.get(product_url_tw)
-        # soup_tw = BeautifulSoup(product_page_tw.text, "lxml")
-        # span_set_tw = soup_tw.find_all('span')[10:]
-        # price_text_tw = ""
-        # for span in span_set_tw:
-        #     text = span.get_text()
-        #     text_length = len(text)
-        #     # if ".00" and "$" in text and text_length < 13:
-        #     if ".00" and "$" in text:
-        #         if "HK" not in text:
-        #             price_text_tw = text
-        #             break
-        #         continue
-        # # trim
-        # if ".00" in price_text_tw:
-        #     price_text_tw = price_text_tw.replace('.00', '')
-        # if "," in price_text_tw:
-        #     price_text_tw = price_text_tw.replace(',', '')
-        # if "NT" in price_text_tw:
-        #     price_text_tw = price_text_tw.replace('NT', '')
-        # if "$" in price_text_tw:
-        #     price_text_tw = price_text_tw.replace('$', '')
-        
+      
         result = [serial_number, product_url, price_jp, jp_price_in_twd, price_tw, product_list]
 
         return result
@@ -165,6 +180,6 @@ def product_crawl(serial_number):
             
 # test, product list = [464787, 467536, 467543, 459591, 450314]
 if __name__ == '__main__':
-    serial_number = '450314'
+    serial_number = '470989'
     print(product_crawl(serial_number))
     
