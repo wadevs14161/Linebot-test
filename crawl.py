@@ -12,7 +12,7 @@ def product_crawl(serial_number):
             product_info_page = requests.get(product_info_api_url)
             json_input = product_info_page.json()
             if json_input['status'] == "ok":
-                product_list = []
+                # product_list = []
                 serial_alt = json_input['result']['relaxedQueries'][0]
                 serial_number = json_input['result']['items'][0]['productId']
                 serial_number = serial_number[1:7]
@@ -45,7 +45,7 @@ def product_crawl(serial_number):
                     price_tw.append(int(price_min))
                     price_tw.append(int(price_max))
 
-                result = [serial_number, product_url, price_jp, jp_price_in_twd, price_tw, product_list]
+                result = [serial_number, product_url, price_jp, jp_price_in_twd, price_tw]
                 return result
         except:
             return -1

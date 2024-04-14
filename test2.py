@@ -1,6 +1,4 @@
-a = 1
-b = 2
-c = 3
+a = ['459592', 'https://www.uniqlo.com/jp/ja/products/459592', 6990, 1473, [1990, 1490, 1490]]
 
-s = "%s %s %s" % (a, b, c)
-print(s)
+if a[5]:
+    print(a[4])
