@@ -120,13 +120,21 @@ def message_text(event):
 @handler.add(MessageEvent, message=ImageMessageContent)
 def message_image(event):
     with ApiClient(configuration) as api_client:
+        reply1 = 'You send a image!!! (TESTING RECOGNITION SERVICE'
+        reply2 = event.message.type
+        reply3 = event.message.id
+        reply4 = event.message.contentProvider
         line_bot_api = MessagingApi(api_client)
         line_bot_api.reply_message(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
                 messages=[
-                    TextMessage(text='You send a image!!! (TESTING RECOGNITION SERVICE')
+                    TextMessage(text=reply1),
+                    TextMessage(text=reply2),
+                    TextMessage(text=reply3),
+                    TextMessage(text=reply4)
                 ]
+                
             )
         )
 
