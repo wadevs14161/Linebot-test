@@ -13,6 +13,7 @@ from linebot.v3.exceptions import (
 from linebot.v3.webhooks import (
     MessageEvent,
     TextMessageContent,
+    ImageMessageContent,
 )
 from linebot.v3.messaging import (
     Configuration,
@@ -115,6 +116,19 @@ def message_text(event):
                 messages=[TextMessage(text=reply1),
                             TextMessage(text=reply2)]))           
     return 'OK'
+
+@handler.add(MessageEvent, message=ImageMessageContent)
+def message_image(event):
+    with ApiClient(configuration) as api_client:
+        line_bot_api = MessagingApi(api_client)
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[
+                    TextMessage(text='You send a image!!! (TESTING RECOGNITION SERVICE')
+                ]
+            )
+        )
 
 
 if __name__ == "__main__":
