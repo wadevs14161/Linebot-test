@@ -123,7 +123,7 @@ def message_image(event):
         reply1 = 'You send a image!!! (TESTING RECOGNITION SERVICE'
         reply2 = event.message.type
         reply3 = event.message.id
-        # reply4 = event.message.contentProvider
+        reply4 = event.message.imageSet
         line_bot_api = MessagingApi(api_client)
         line_bot_api.reply_message(
             ReplyMessageRequest(
@@ -131,7 +131,8 @@ def message_image(event):
                 messages=[
                     TextMessage(text=reply1),
                     TextMessage(text=reply2),
-                    TextMessage(text=reply3)
+                    TextMessage(text=reply3),
+                    TextMessage(text=reply4)
                 ]
                 
             )
