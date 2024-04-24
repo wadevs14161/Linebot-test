@@ -23,6 +23,12 @@ from linebot.v3.messaging import (
     TextMessage,
     ImageMessage
 )
+
+from imgurpython import ImgurClient
+# Imgur API client
+client_id = 'YOUR CLIENT ID'
+client_secret = 'YOUR CLIENT SECRET'
+
 from crawl import product_crawl
 
 
@@ -121,20 +127,20 @@ def message_text(event):
 def message_image(event):
     with ApiClient(configuration) as api_client:
         reply1 = 'You send a image!!! (TESTING RECOGNITION SERVICE'
-        reply2 = event.message.type
-        reply3 = event.message.id
-        reply4 = event.message.imageSet
+
         line_bot_api = MessagingApi(api_client)
+
+        messageId = event.message.id
+
+        url = "https://api-data.line.me/v2/bot/message/{}/content".format(messageId)
+
         line_bot_api.reply_message(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
                 messages=[
                     TextMessage(text=reply1),
-                    TextMessage(text=reply2),
-                    TextMessage(text=reply3),
-                    TextMessage(text=reply4)
+                    TextMessage(text=url)
                 ]
-                
             )
         )
 
