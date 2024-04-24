@@ -29,6 +29,8 @@ from imgurpython import ImgurClient
 # Imgur API client
 client_id = os.getenv('IMGUR_CLIENT_ID', None)
 client_secret = os.getenv('IMGUR_CLIENT_SECRET', None)
+access_token = os.getenv('IMGUR_ACCESS_TOKEN', None)
+refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
 
 from crawl import product_crawl
 
@@ -136,9 +138,10 @@ def message_image(event):
         url = "https://api-data.line.me/v2/bot/message/{}/content".format(messageId)
         headers = {"Authorization": "Bearer {}".format(channel_access_token)}
         r = requests.get(url, headers=headers)
-
-        client = ImgurClient(client_id, client_secret)
         reply2 = r.url
+
+        client = ImgurClient(client_id, client_secret, access_token, refresh_token)
+        image = client.upload_from_url(r.url)
 
         line_bot_api.reply_message(
             ReplyMessageRequest(
