@@ -25,10 +25,10 @@ from linebot.v3.messaging import (
     ImageMessage
 )
 
-# from imgurpython import ImgurClient
-# # Imgur API client
-# client_id = 'YOUR CLIENT ID'
-# client_secret = 'YOUR CLIENT SECRET'
+from imgurpython import ImgurClient
+# Imgur API client
+client_id = os.getenv('IMGUR_CLIENT_ID', None)
+client_secret = os.getenv('IMGUR_CLIENT_SECRET', None)
 
 from crawl import product_crawl
 
@@ -136,8 +136,8 @@ def message_image(event):
         url = "https://api-data.line.me/v2/bot/message/{}/content".format(messageId)
         headers = {"Authorization": "Bearer {}".format(channel_access_token)}
         r = requests.get(url, headers=headers)
-        print(r)
-        print(r.url)
+
+        client = ImgurClient(client_id, client_secret)
         reply2 = r.url
 
         line_bot_api.reply_message(
@@ -145,7 +145,6 @@ def message_image(event):
                 reply_token=event.reply_token,
                 messages=[
                     TextMessage(text=reply1),
-                    TextMessage(text=url),
                     TextMessage(text=reply2)
                 ]
             )
