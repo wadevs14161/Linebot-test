@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, abort
 import os
 import sys
 import requests
+import shutil
 from argparse import ArgumentParser
 
 from linebot.v3 import (
@@ -33,6 +34,8 @@ access_token = os.getenv('IMGUR_ACCESS_TOKEN', None)
 refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
 
 from crawl import product_crawl
+from upload import upload
+from image import analyze
 
 
 app = Flask(__name__)
@@ -129,7 +132,7 @@ def message_text(event):
 @handler.add(MessageEvent, message=ImageMessageContent)
 def message_image(event):
     with ApiClient(configuration) as api_client:
-        reply1 = 'You send a image!!! (TESTING RECOGNITION SERVICE'
+        reply1 = 'You send a image!!! (TESTING RECOGNITION SERVICE)'
 
         line_bot_api = MessagingApi(api_client)
 
@@ -138,18 +141,34 @@ def message_image(event):
         url = "https://api-data.line.me/v2/bot/message/{}/content".format(messageId)
         headers = {"Authorization": "Bearer {}".format(channel_access_token)}
         r = requests.get(url, headers=headers)
-        # reply2 = r.url
-        url_test = "https://down-tw.img.susercontent.com/file/tw-11134207-7r98s-ls5ixfaie6mg2a"
+        print(r)
+        
+        filename = "test.jpg"
+        if r.status_code == 200:
+            with open(f'{filename}', "wb") as file:
+                shutil.copyfileobj(r.raw, file)
+        # print("Image downloaded successfully.")
+
+        album = 'bC9GRBu'
+    
         client = ImgurClient(client_id, client_secret, access_token, refresh_token)
-        image = client.upload_from_url(url_test)
-        reply2 = url_test
+
+        image = upload(client, album)
+        # print(f"圖片網址: {image['link']}")
+        reply2 = "Image downloaded successfully."
+        reply3 = f"圖片網址: {image['link']}"
+        result = analyze(image['link'])
+        print(result)
+        reply4 = result.caption.text
 
         line_bot_api.reply_message(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
                 messages=[
                     TextMessage(text=reply1),
-                    TextMessage(text=reply2)
+                    TextMessage(text=reply2),
+                    TextMessage(text=reply3),
+                    TextMessage(text=reply4),
                 ]
             )
         )

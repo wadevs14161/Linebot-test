@@ -1,4 +1,16 @@
-a = ['459592', 'https://www.uniqlo.com/jp/ja/products/459592', 6990, 1473, [1990, 1490, 1490]]
+import requests
+import shutil
 
-if a[5]:
-    print(a[4])
+# LINE_CHANNEL_ACCESS_TOKEN = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
+
+url = "https://api-data.line.me/v2/bot/message/505047547476181454/content"
+headers = {"Authorization": "Bearer {}".format(LINE_CHANNEL_ACCESS_TOKEN),}
+
+r = requests.get(url, headers = headers)
+print(r)
+
+filename = "test.jpg"
+if r.status_code == 200:
+    with open(f'{filename}', "wb") as file:
+        shutil.copyfileobj(r.raw, file)
+    print("Image downloaded successfully.")
