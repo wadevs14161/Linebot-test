@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, abort
 import os
 import sys
+import requests
 from argparse import ArgumentParser
 
 from linebot.v3 import (
@@ -133,10 +134,11 @@ def message_image(event):
         messageId = event.message.id
 
         url = "https://api-data.line.me/v2/bot/message/{}/content".format(messageId)
-
-        image = line_bot_api.get_message_content(messageId)
-        reply2 = type(image)
-
+        headers = {"Authorization": "Bearer {}".format(channel_access_token)}
+        r = requests.get(url, headers=headers)
+        print(r)
+        print(r.url)
+        reply2 = r.url
 
         line_bot_api.reply_message(
             ReplyMessageRequest(
