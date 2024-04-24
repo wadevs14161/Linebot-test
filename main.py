@@ -31,10 +31,10 @@ from imgurpython import ImgurClient
 client_id = os.getenv('IMGUR_CLIENT_ID', None)
 client_secret = os.getenv('IMGUR_CLIENT_SECRET', None)
 access_token = os.getenv('IMGUR_ACCESS_TOKEN', None)
-# refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
+refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
 
 from crawl import product_crawl
-from upload import upload
+from datetime import datetime
 from image import analyze
 
 
@@ -152,12 +152,23 @@ def message_image(event):
         print(os.listdir())
         os.listdir()
 
-        album = 'bC9GRBu'
-    
-        client = ImgurClient(client_id, client_secret, access_token)
+        print("Uploading image... ")
 
-        image = upload(client, album)
-        # print(f"圖片網址: {image['link']}")
+        album = 'bC9GRBu'
+        __location__ = os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        file_path = os.path.join(__location__, 'test.jpg')
+        name = 'test-name!'
+        title = 'test-title'
+        config = {
+            'album':  album,
+            'name': name,
+            'title': title,
+            'description': f'test-{datetime.now()}'
+        }
+        client = ImgurClient(client_id, client_secret, access_token, refresh_token)
+        image = client.upload_from_path(file_path, config=config, anon=False)
+        
         reply2 = "Image downloaded successfully."
         reply3 = f"圖片網址: {image['link']}"
         result = analyze(image['link'])
