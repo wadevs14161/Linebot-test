@@ -19,7 +19,8 @@ def upload(client_data, album , name = 'test-name!' ,title = 'test-title' ):
 if __name__ == '__main__':
 
     album = 'bC9GRBu'
-    
+
+
     client = ImgurClient(client_id, client_secret, access_token, refresh_token)
 
     image = upload(client, album)

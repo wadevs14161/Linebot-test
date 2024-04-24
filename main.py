@@ -147,7 +147,10 @@ def message_image(event):
         if r.status_code == 200:
             with open(f'{filename}', "wb") as file:
                 shutil.copyfileobj(r.raw, file)
-        # print("Image downloaded successfully.")
+                print("Image downloaded successfully.")
+        
+        print(os.listdir())
+        os.listdir()
 
         album = 'bC9GRBu'
     
