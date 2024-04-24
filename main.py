@@ -24,10 +24,10 @@ from linebot.v3.messaging import (
     ImageMessage
 )
 
-from imgurpython import ImgurClient
-# Imgur API client
-client_id = 'YOUR CLIENT ID'
-client_secret = 'YOUR CLIENT SECRET'
+# from imgurpython import ImgurClient
+# # Imgur API client
+# client_id = 'YOUR CLIENT ID'
+# client_secret = 'YOUR CLIENT SECRET'
 
 from crawl import product_crawl
 
