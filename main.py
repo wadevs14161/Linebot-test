@@ -134,12 +134,17 @@ def message_image(event):
 
         url = "https://api-data.line.me/v2/bot/message/{}/content".format(messageId)
 
+        image = line_bot_api.get_message_content(messageId)
+        reply2 = type(image)
+
+
         line_bot_api.reply_message(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
                 messages=[
                     TextMessage(text=reply1),
-                    TextMessage(text=url)
+                    TextMessage(text=url),
+                    TextMessage(text=reply2)
                 ]
             )
         )
