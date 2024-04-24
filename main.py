@@ -31,7 +31,7 @@ from imgurpython import ImgurClient
 client_id = os.getenv('IMGUR_CLIENT_ID', None)
 client_secret = os.getenv('IMGUR_CLIENT_SECRET', None)
 access_token = os.getenv('IMGUR_ACCESS_TOKEN', None)
-refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
+# refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
 
 from crawl import product_crawl
 from upload import upload
@@ -154,7 +154,7 @@ def message_image(event):
 
         album = 'bC9GRBu'
     
-        client = ImgurClient(client_id, client_secret, access_token, refresh_token)
+        client = ImgurClient(client_id, client_secret, access_token)
 
         image = upload(client, album)
         # print(f"圖片網址: {image['link']}")

@@ -14,6 +14,7 @@ def upload(client_data, album , name = 'test-name!' ,title = 'test-title' ):
     __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
     file_path = os.path.join(__location__, 'test.jpg')
+    print(file_path)
     image = client_data.upload_from_path(file_path, config=config, anon=False)
     print("Done")
 
