@@ -1,5 +1,6 @@
 from imgurpython import ImgurClient
 from datetime import datetime
+import os
 
 def upload(client_data, album , name = 'test-name!' ,title = 'test-title' ):
     config = {
@@ -10,7 +11,10 @@ def upload(client_data, album , name = 'test-name!' ,title = 'test-title' ):
     }
 
     print("Uploading image... ")
-    image = client_data.upload_from_path('test.jpg', config=config, anon=False)
+    __location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    file_path = os.path.join(__location__, 'test.jpg')
+    image = client_data.upload_from_path(file_path, config=config, anon=False)
     print("Done")
 
     return image
