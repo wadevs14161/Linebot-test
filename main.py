@@ -160,11 +160,12 @@ def message_image(event):
         album = 'bC9GRBu'
         name = ''.join(random.choice(string.ascii_letters) for x in range(10))
         title = name
-        image = upload(client, album, name, title)
+        # image = upload(client, album, name, title)
         
-        reply2 = "Image downloaded successfully."
-        reply3 = f"圖片網址: {image['link']}"
-        result = analyze(image['link'])
+        # reply2 = "Image downloaded successfully."
+        # reply3 = f"圖片網址: {image['link']}"
+        test_image = "https://static.vecteezy.com/system/resources/previews/001/503/533/original/group-of-people-cartoon-characters-free-vector.jpg"
+        result = analyze(test_image)
         print(result)
         reply4 = result.caption.text
 
