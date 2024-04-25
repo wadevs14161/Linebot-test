@@ -152,7 +152,7 @@ def message_image(event):
 
         url = "https://api-data.line.me/v2/bot/message/{}/content".format(messageId)
         headers = {"Authorization": "Bearer {}".format(channel_access_token)}
-        r = requests.get(url, headers=headers)
+        r = requests.get(url, headers=headers, stream=True)
         print(r)
         
         filename = "test.jpg"
