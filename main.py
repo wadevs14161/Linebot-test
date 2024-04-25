@@ -33,6 +33,15 @@ client_secret = os.getenv('IMGUR_CLIENT_SECRET', None)
 access_token = os.getenv('IMGUR_ACCESS_TOKEN', None)
 refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
 
+# Cloudinary API
+import cloudinary
+          
+cloudinary.config( 
+  cloud_name = "dxjqfakv5", 
+  api_key = "174321354744596", 
+  api_secret = "50lDF0sW2xlSOk1jz0elldPRzOw" 
+)
+
 from crawl import product_crawl
 from datetime import datetime
 from image import analyze
@@ -174,9 +183,7 @@ def message_image(event):
                 reply_token=event.reply_token,
                 messages=[
                     TextMessage(text=reply1),
-                    TextMessage(text=reply2),
-                    TextMessage(text=reply3),
-                    TextMessage(text=reply4),
+                    TextMessage(text=reply4)
                 ]
             )
         )
