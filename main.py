@@ -36,6 +36,8 @@ refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
 from crawl import product_crawl
 from datetime import datetime
 from image import analyze
+from upload import upload
+import random, string
 
 
 app = Flask(__name__)
@@ -154,20 +156,11 @@ def message_image(event):
 
         print("Uploading image... ")
 
-        album = 'bC9GRBu'
-        __location__ = os.path.realpath(
-        os.path.join(os.getcwd(), os.path.dirname(__file__)))
-        file_path = os.path.join(__location__, 'test.jpg')
-        name = 'test-name!'
-        title = 'test-title'
-        config = {
-            'album':  album,
-            'name': name,
-            'title': title,
-            'description': f'test-{datetime.now()}'
-        }
         client = ImgurClient(client_id, client_secret, access_token, refresh_token)
-        image = client.upload_from_path(file_path, config=config, anon=False)
+        album = 'bC9GRBu'
+        name = ''.join(random.choice(string.ascii_letters) for x in range(10))
+        title = name
+        image = upload(client, album, name, title)
         
         reply2 = "Image downloaded successfully."
         reply3 = f"圖片網址: {image['link']}"

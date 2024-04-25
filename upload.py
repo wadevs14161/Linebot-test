@@ -2,7 +2,7 @@ from imgurpython import ImgurClient
 from datetime import datetime
 import os
 
-def upload(client_data, album , name = 'test-name!' ,title = 'test-title' ):
+def upload(client_data, album ,name ,title):
     config = {
         'album':  album,
         'name': name,
@@ -23,8 +23,13 @@ def upload(client_data, album , name = 'test-name!' ,title = 'test-title' ):
 
 if __name__ == '__main__':
 
-    album = 'bC9GRBu'
+    # Imgur API client
+    client_id = os.getenv('IMGUR_CLIENT_ID', None)
+    client_secret = os.getenv('IMGUR_CLIENT_SECRET', None)
+    access_token = os.getenv('IMGUR_ACCESS_TOKEN', None)
+    refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
 
+    album = 'bC9GRBu'
 
     client = ImgurClient(client_id, client_secret, access_token, refresh_token)
 

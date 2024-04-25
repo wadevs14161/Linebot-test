@@ -4,6 +4,9 @@
 
 ### Python ###
 
+# script
+*.sh
+
 # test crawler
 webcrawl.py
 requests_html.py
