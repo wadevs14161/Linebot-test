@@ -37,9 +37,9 @@ refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
 import cloudinary
           
 cloudinary.config( 
-  cloud_name = "dxjqfakv5", 
-  api_key = "174321354744596", 
-  api_secret = "50lDF0sW2xlSOk1jz0elldPRzOw" 
+  cloud_name = os.getenv('CLOUDINARY_NAME'), 
+  api_key = os.getenv('CLOUDINARY_API_KEY'), 
+  api_secret = os.getenv('CLOUDINARY_API_SECRET') 
 )
 
 from crawl import product_crawl
