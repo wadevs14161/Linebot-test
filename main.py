@@ -35,6 +35,7 @@ refresh_token = os.getenv('IMGUR_REFRESH_TOKEN', None)
 
 # Cloudinary API
 import cloudinary
+import cloudinary.uploader
           
 cloudinary.config( 
   cloud_name = os.getenv('CLOUDINARY_NAME'), 
@@ -163,18 +164,10 @@ def message_image(event):
         print(os.listdir())
         os.listdir()
 
+        cloudinary_response = cloudinary.uploader.upload('test.jpg')
         print("Uploading image... ")
 
-        client = ImgurClient(client_id, client_secret, access_token, refresh_token)
-        album = 'bC9GRBu'
-        name = ''.join(random.choice(string.ascii_letters) for x in range(10))
-        title = name
-        # image = upload(client, album, name, title)
-        
-        # reply2 = "Image downloaded successfully."
-        # reply3 = f"圖片網址: {image['link']}"
-        test_image = "https://static.vecteezy.com/system/resources/previews/001/503/533/original/group-of-people-cartoon-characters-free-vector.jpg"
-        result = analyze(test_image)
+        result = analyze(cloudinary_response['url'])
         print(result)
         reply4 = result.caption.text
 

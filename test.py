@@ -1,7 +1,14 @@
 import os
+import cloudinary
+import cloudinary.uploader
 
+cloudinary.config( 
+  cloud_name = os.getenv('CLOUDINARY_NAME'), 
+  api_key = os.getenv('CLOUDINARY_API_KEY'), 
+  api_secret = os.getenv('CLOUDINARY_API_SECRET'),
+  secure = True
+)
 
-__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-file_path = os.path.join(__location__, 'test.jpg')
+response = cloudinary.uploader.upload('test.jpg')
 
-print(file_path)
+print(response['url'])
