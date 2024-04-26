@@ -176,6 +176,7 @@ def message_image(event):
                     serial_number = line.text[-6:]
                     print("serial number : " + serial_number)
         crawlResult = product_crawl(serial_number)
+        print(crawlResult)
         reply1 = "商品連結:\n %s\n商品價格: %s日圓\n折合台幣: %s元" % (crawlResult[1], crawlResult[2], crawlResult[3])
         if len(crawlResult[4]) != 0:
             try:
