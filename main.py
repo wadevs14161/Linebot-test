@@ -144,7 +144,7 @@ def message_text(event):
 @handler.add(MessageEvent, message=ImageMessageContent)
 def message_image(event):
     with ApiClient(configuration) as api_client:
-        reply1 = 'You send a image!!! (TESTING RECOGNITION SERVICE)'
+        reply3 = 'You send a image!!! (TESTING RECOGNITION SERVICE)'
 
         line_bot_api = MessagingApi(api_client)
 
@@ -168,15 +168,42 @@ def message_image(event):
         print("Uploading image... ")
 
         result = analyze(cloudinary_response['url'])
-        print(result)
-        reply4 = result.caption.text
+
+        serial_number = ""
+        for line in result.read.blocks[0].lines:
+            if len(line.text) == 10:
+                if line.text[-6:].isnumeric():
+                    serial_number = line.text[-6:]
+                    print("serial number : " + serial_number)
+        crawlResult = product_crawl(serial_number)
+        reply1 = "商品連結:\n %s\n商品價格: %s日圓\n折合台幣: %s元" % (crawlResult[1], crawlResult[2], crawlResult[3])
+        if len(crawlResult[4]) != 0:
+            try:
+                reply1 += "\n臺灣官網售價: {}元".format(crawlResult[4][2])
+            except:
+                reply1 += "\n臺灣官網售價: {}元".format(crawlResult[4][1])
+        available_dict = {}
+        if len(crawlResult) == 6:
+            for item in crawlResult[5]:
+                if item['stock'] != 'STOCK_OUT' and item['color'] not in available_dict:
+                    available_dict[item['color']] = []
+                if item['stock'] != 'STOCK_OUT' and item['color'] in available_dict:
+                    available_dict[item['color']].append(item['size'])
+
+            reply2 = "日本官網庫存:"
+            for color in available_dict:
+                reply2 += "\n{}: ".format(color)
+                reply2 += "{}".format(', '.join(available_dict[color]))
+        else:
+            reply2 = "日本官網庫存查不到"
 
         line_bot_api.reply_message(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
                 messages=[
+                    TextMessage(text=reply3),
                     TextMessage(text=reply1),
-                    TextMessage(text=reply4)
+                    TextMessage(text=reply2)
                 ]
             )
         )
